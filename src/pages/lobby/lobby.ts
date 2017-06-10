@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { QuestionPage } from '../question/question';
 import { HistoryPage } from '../history/history';
+import { LandingPage } from '../landing/landing';
+import { AppUsersProvider } from '../../providers/app-users/app-users';
 
 /**
  * Generated class for the LobbyPage page.
@@ -15,12 +17,16 @@ import { HistoryPage } from '../history/history';
   templateUrl: 'lobby.html',
 })
 export class LobbyPage {
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public appUsers: AppUsersProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LobbyPage');
+    this.token = window.localStorage.getItem('token');
   }
 
   takeTest() {
@@ -29,5 +35,28 @@ export class LobbyPage {
   
   viewHistory() {
     this.navCtrl.push(HistoryPage);
+  }
+  
+  logout() {
+    this.appUsers.logout(this.token)
+      .map(res => res.json())
+      .subscribe(res => {
+                  // handle successful responses and decide what happens next
+                  this.navCtrl.setRoot(LandingPage);
+                },
+                error => {
+                  //inform the user of any known problems that arose, otherwise give a generic failed message
+                  switch(error.status) {
+                    case 404:
+                      alert("not found");
+                      break;
+                    case 422:
+                      alert("email is already taken");
+                      break;
+                    case 500:
+                      alert("the world has ended, or the server just isn't online");
+                      break;
+                }
+      })
   }
 }

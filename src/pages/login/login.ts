@@ -35,9 +35,10 @@ export class LoginPage {
     this.appUsers.login(this.user)
       .map(res => res.json())
       .subscribe(res => {
+                  console.log(res);
                   // handle successful responses and decide what happens next
-                  window.localStorage.setItem('token', res.token);
-                  window.localStorage.setItem('userId', res.id);
+                  window.localStorage.setItem('token', res.id);
+                  window.localStorage.setItem('userId', res.userId);
                   this.navCtrl.setRoot(LobbyPage);
                 },
                 error => {

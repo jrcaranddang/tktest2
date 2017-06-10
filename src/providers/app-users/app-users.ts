@@ -20,12 +20,22 @@ export class AppUsersProvider {
   register(newUserData) {
     return this.http.post(
       this.baseUrl + this.path, 
-      newUserData);
+      newUserData
+    );
   }
   
   login(user) {
     return this.http.post(
       this.baseUrl + this.path + "/login", 
-      user);
+      user
+    );
+  }
+  
+  logout(token) {
+    return this.http.post(
+      this.baseUrl + this.path + "/logout" +
+        "?access_token=" + token,
+        {} // You have to pass an empty object because this is using the post method and it is expecting two parameters of this function call
+    );
   }
 }
