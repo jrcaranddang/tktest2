@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class AppUsersProvider {
-  baseUrl: string = "http://tktest2-dcarandangssf.c9users.io:8080/api";
+  baseUrl: string = "https://for-students-jbrownssf.c9users.io:8080/api";
   path: string = "/AppUsers";
   
   constructor(public http: Http) {
@@ -33,8 +33,7 @@ export class AppUsersProvider {
   
   logout(token) {
     return this.http.post(
-      this.baseUrl + this.path + "/logout" +
-        "?access_token=" + token,
+      this.baseUrl + this.path + "/logout" + "?access_token=" + token,
         {} // You have to pass an empty object because this is using the post method and it is expecting two parameters of this function call
     );
   }

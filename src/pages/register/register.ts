@@ -37,8 +37,8 @@ export class RegisterPage {
       .subscribe(res => {
                   console.log(res);
                   // handle successful responses and decide what happens next
-                  window.localStorage.setItem('token', res.id);
-                  window.localStorage.setItem('userId', res.userId);
+                  window.localStorage.setItem('token', res.token);
+                  window.localStorage.setItem('userId', res.id);
                   this.navCtrl.setRoot(LobbyPage);
                 },
                 error => {

@@ -26,7 +26,6 @@ export class LobbyPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LobbyPage');
-    this.token = window.localStorage.getItem('token');
   }
 
   takeTest() {
@@ -37,12 +36,16 @@ export class LobbyPage {
     this.navCtrl.push(HistoryPage);
   }
   
-  logout() {
+  logoutUser() {
+    this.token = window.localStorage.getItem('token');
+    console.log(this.token);
     this.appUsers.logout(this.token)
       .map(res => res.json())
       .subscribe(res => {
                   // handle successful responses and decide what happens next
-                  this.navCtrl.setRoot(LandingPage);
+                  // if(res === 204) {
+                    this.navCtrl.setRoot(LandingPage);
+                  // }
                 },
                 error => {
                   //inform the user of any known problems that arose, otherwise give a generic failed message
