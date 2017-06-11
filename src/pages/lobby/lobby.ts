@@ -37,9 +37,10 @@ export class LobbyPage {
   }
   
   logoutUser() {
-    this.token = window.localStorage.getItem('token');
-    console.log(this.token);
-    this.appUsers.logout(this.token)
+    // this.token = window.localStorage.getItem('token');
+    // console.log(this.token);
+    // this.appUsers.logout(this.token)
+    this.appUsers.logout(window.localStorage.getItem('token'))
       .map(res => res.json())
       .subscribe(res => {
                   // handle successful responses and decide what happens next
