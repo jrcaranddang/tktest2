@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { ResultsPage } from '../results/results';
 import { QuestionsProvider } from '../../providers/questions/questions';
+import { TestResultsProvider } from '../../providers/test-results/test-results';
 
 // const apiQuestions = [
 // {
@@ -437,22 +438,34 @@ export class QuestionPage {
   
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public questionsProvider: QuestionsProvider) {    
+              public questionsProvider: QuestionsProvider,
+              public testResults: TestResultsProvider) {    
   this.questionsProvider.getQuestions(window.localStorage.getItem('token'))
     .map(res => res.json())
     .subscribe(res => {
                 const apiQuestions = res;
+                // console.log(apiQuestions);
                 for(let singleQuestion of apiQuestions) {
                   if(!this.questions[singleQuestion.Question_Number - 1]) {
                       this.questions[singleQuestion.Question_Number - 1] = {};
                   }
                       this.questions[singleQuestion.Question_Number - 1][singleQuestion.Answer_ID] = singleQuestion;
-                }
+                };
               }, 
               error => {
                 alert("Warning Will Robinson!");
               }
     );
+  
+                // without backend
+                // for(let singleQuestion of apiQuestions) {
+                //   console.log(singleQuestion);
+                //   if(!this.questions[singleQuestion.Question_Number - 1]) {
+                //       this.questions[singleQuestion.Question_Number - 1] = {};
+                //   }
+                //       this.questions[singleQuestion.Question_Number - 1][singleQuestion.Answer_ID] = singleQuestion;
+                // };
+                console.log(this.questions);
   }
 
   ionViewDidLoad() {
@@ -475,14 +488,22 @@ export class QuestionPage {
       this.slides.lockSwipes(true);
     } else {
       //finished the test, move onto the results
-      let tests: any = JSON.parse(window.localStorage.getItem("test")) || [];
+      // let tests: any = JSON.parse(window.localStorage.getItem("test")) || [];
       this.testAnswers.createDate = new Date().toISOString();
-      tests.push(this.testAnswers);
-      window.localStorage.setItem("tests", JSON.stringify(tests));
-      this.navCtrl.setRoot(ResultsPage, {
-              test: this.testAnswers,
-              showHome: true
-      });
+      this.testAnswers.userId = window.localStorage.getItem("userId");
+      // tests.push(this.testAnswers);
+      // window.localStorage.setItem("tests", JSON.stringify(tests));
+      this.testResults.saveTest(this.testAnswers, window.localStorage.getItem("token"))
+        .map(res => res.json())
+        .subscribe(res => {
+          this.navCtrl.setRoot(ResultsPage, {
+                  test: this.testAnswers,
+                  showHome: true
+          });
+        },
+        error => {
+          alert("Warning Will Robinson!");
+        })
     }
   }
 }

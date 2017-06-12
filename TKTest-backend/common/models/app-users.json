@@ -19,7 +19,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "userId": {
+      "type": "hasMany",
+      "model": "TestResults",
+      "foreignKey": ""
+    },
+    "TestRestults": {
+      "type": "hasMany",
+      "model": "TestResults",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

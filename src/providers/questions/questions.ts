@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class QuestionsProvider {
-  baseUrl: string = "https://for-students-jbrownssf.c9users.io:8080/api";
+  baseUrl: string = "http://for-students-jbrownssf.c9users.io:8080/api";
   path: string = "/Questions";
   
   constructor(public http: Http) {
