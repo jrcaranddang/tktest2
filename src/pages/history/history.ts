@@ -27,9 +27,10 @@ export class HistoryPage {
     this.testResults.getTests(window.localStorage.getItem("token"), window.localStorage.getItem("userId"))
       .map(res => res.json())
       .subscribe(res => {
-                  this.tests = res.filter(function(test) {
-                    return test.userId === window.localStorage.getItem("userId");
-                  });
+                  // this.tests = res.filter(function(test) {
+                  //   return test.userId === window.localStorage.getItem("userId");
+                  // });
+                  this.tests = res;
                   console.log(this.tests);
                 },
                 error => {
